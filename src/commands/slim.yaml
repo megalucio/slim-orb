@@ -1,0 +1,25 @@
+description: Slim a Docker image and generate security profiles
+parameters:
+  image:
+    type: string
+  tag:
+    type: string
+    default: "latest"
+  output_image:
+    type: string
+    default: ""
+steps:
+  - run:
+      name: Install SlimToolkit
+      command: |
+        curl -sL https://downloads.slim.dev/slim/latest/linux/x86_64/slim -o slim && chmod +x slim && sudo mv slim /usr/local/bin/
+  - run:
+      name: Slim Docker image and generate profiles
+      command: |
+        slim build --tag << parameters.output_image >> --include-apparmor --include-seccomp << parameters.image >>:<< parameters.tag >>
+        # The slimmed image will be named << parameters.output_image >>, and profiles will be in ./slim.report/
+  - persist_to_workspace:
+      root: .
+      paths:
+        - slim.report/
+        - docker-slim-state.json
