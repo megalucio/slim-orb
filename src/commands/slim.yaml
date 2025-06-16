@@ -16,8 +16,7 @@ steps:
   - run:
       name: Slim Docker image and generate profiles
       command: |
-        slim build --target << parameters.image >>:<< parameters.tag >> --tag << parameters.output_image >> --include-apparmor --include-seccomp
-        # The slimmed image will be named << parameters.output_image >>, and profiles will be in ./slim.report/
+        slim build --target << parameters.image >>:<< parameters.tag >> --tag << parameters.output_image >>
   - persist_to_workspace:
       root: .
       paths:
