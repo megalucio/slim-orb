@@ -12,7 +12,7 @@ steps:
   - run:
       name: Install SlimToolkit
       command: |
-        curl -sL https://downloads.slim.dev/slim/latest/linux/x86_64/slim -o slim && chmod +x slim && sudo mv slim /usr/local/bin/
+        curl -sL https://raw.githubusercontent.com/slimtoolkit/slim/master/scripts/install-slim.sh | sudo -E bash -
   - run:
       name: Slim Docker image and generate profiles
       command: |
