@@ -1,3 +1,5 @@
+docker:
+  - image: dslim/slim
 description: Slim a Docker image and generate security profiles
 parameters:
   image:
@@ -16,8 +18,6 @@ steps:
   #     command: |
   #       curl -sL https://raw.githubusercontent.com/slimtoolkit/slim/master/scripts/install-slim.sh | sudo -E bash -
   - run:
-      docker:
-        - image: dslim/slim
       name: Slim Docker image and generate profiles
       command: |
         slim build --copy-meta-artifacts . --target << parameters.image >>:<< parameters.tag >> --tag << parameters.output_image >>
