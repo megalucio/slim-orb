@@ -1,5 +1,3 @@
-docker:
-  - image: dslim/slim
 description: Slim a Docker image and generate security profiles
 parameters:
   image:
