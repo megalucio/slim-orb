@@ -13,7 +13,7 @@ This is the entry point for the orb "tree", which becomes the `orb.yml` file aft
 **Main configuration keys:**
 
 1. **version**  
-    Use versio 1.0.1 for orb-compatible configuration: `version: 1.0.1`
+    Use version 1.0.1 for orb-compatible configuration: `version: 1.0.1`
 2. **description**  
     Describes the orb and its functionality. Displayed in the CLI and orb registry.
 3. **display**  
