@@ -9,12 +9,12 @@ parameters:
     type: string
     default: ""
 steps:
-  - setup_remote_docker:
-      docker_layer_caching: true
-  - run:
-      name: Install SlimToolkit
-      command: |
-        curl -sL https://raw.githubusercontent.com/slimtoolkit/slim/master/scripts/install-slim.sh | sudo -E bash -
+  # - setup_remote_docker:
+  #     docker_layer_caching: true
+  # - run:
+  #     name: Install SlimToolkit
+  #     command: |
+  #       curl -sL https://raw.githubusercontent.com/slimtoolkit/slim/master/scripts/install-slim.sh | sudo -E bash -
   - run:
       docker:
         - image: dslim/slim
