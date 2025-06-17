@@ -1,0 +1,25 @@
+description: Slim a Docker image and generate security profiles
+parameters:
+  image:
+    type: string
+  tag:
+    type: string
+    default: "latest"
+  output_image:
+    type: string
+    default: ""
+steps:
+  - setup_remote_docker:
+      docker_layer_caching: true
+  - run:
+      name: Install SlimToolkit
+      command: |
+        curl -sL https://raw.githubusercontent.com/slimtoolkit/slim/master/scripts/install-slim.sh | sudo -E bash -
+  - run:
+      name: Slim Docker image and generate profiles
+      command: |
+        slim build --copy-meta-artifacts . --target << parameters.image >>:<< parameters.tag >> --tag << parameters.output_image >>
+  - persist_to_workspace:
+      root: .
+      paths:
+        - << parameters.image >>-apparmor-profile

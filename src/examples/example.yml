@@ -1,13 +1,14 @@
 description: >
-  Sample example description.
-# Provide a use-case based example for using this orb.
-# Everything in the `usage` section will be displayed in the orb registry.
-# Comments are not retained.
+  Example usage of the slim-orb to slim a Docker image and generate security profiles.
+
 usage:
   version: 2.1
   orbs:
-    <orb-name>: <namespace>/<orb-name>@1.2.3
+    slim-orb: your-namespace/slim-orb@1.2.3
   workflows:
-    use-my-orb:
+    use-slim-orb:
       jobs:
-        - <orb-name>/<job-name>
+        - slim-orb/slim:
+            image: your-image-name
+            tag: latest
+            output_image: your-slimmed-image:latest
