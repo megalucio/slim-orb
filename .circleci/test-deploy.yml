@@ -31,7 +31,7 @@ jobs:
       - slim-orb/slim:
           image: "nginx"
           tag: "latest"
-          output_image: "slimmed-nginx"
+          output_image: "nginx.slim"
 workflows:
   test-deploy:
     jobs:
