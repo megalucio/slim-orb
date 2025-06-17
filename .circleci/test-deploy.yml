@@ -28,7 +28,6 @@ jobs:
     steps:
       - checkout
       # Run your orb's commands to validate them.
-      - slim-orb/greet
       - slim-orb/slim:
           image: "nginx"
           tag: "latest"
