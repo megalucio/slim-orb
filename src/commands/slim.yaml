@@ -25,7 +25,18 @@ steps:
       name: Slim Docker image and generate profiles
       command: |
         slim build --copy-meta-artifacts . --target << parameters.image >>:<< parameters.tag >> --tag << parameters.output_image >>
+  - run:
+      name: Move AppArmor and Seccomp profiles if they exist
+      command: |
+        mkdir -p workspace
+        if [ -f "<< parameters.image >>-apparmor-profile" ]; then
+          mv "<< parameters.image >>-apparmor-profile" workspace/
+        fi
+        if [ -f "<< parameters.image >>-seccomp.json" ]; then
+          mv "<< parameters.image >>-seccomp.json" workspace/
+        fi
   - persist_to_workspace:
-      root: .
+      root: workspace
       paths:
         - << parameters.image >>-apparmor-profile
+        - << parameters.image >>-seccomp.json
