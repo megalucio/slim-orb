@@ -8,9 +8,15 @@ parameters:
   output_image:
     type: string
     default: ""
+  use_remote_docker:
+    type: boolean
+    default: true
 steps:
-  - setup_remote_docker:
-      docker_layer_caching: true
+  - when:
+      condition: << parameters.use_remote_docker >>
+      steps:
+        - setup_remote_docker:
+            docker_layer_caching: true
   - run:
       name: Install SlimToolkit
       command: |

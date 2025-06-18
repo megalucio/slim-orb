@@ -12,3 +12,4 @@ usage:
             image: your-image-name
             tag: latest
             output_image: your-slimmed-image:latest
+            user_remote_docker: true
