@@ -38,5 +38,4 @@ steps:
   - persist_to_workspace:
       root: workspace
       paths:
-        - << parameters.image >>-apparmor-profile
-        - << parameters.image >>-seccomp.json
+        - .
