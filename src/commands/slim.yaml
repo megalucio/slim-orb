@@ -76,7 +76,7 @@ steps:
             OUTPUT_IMAGE="${FULL_IMAGE}:$OUTPUT_TAG"
           fi
           # shellcheck disable=SC2086
-          slim build --copy-meta-artifacts . --target "$INPUT_IMAGE" --tag "$OUTPUT_IMAGE"
+          slim build --copy-meta-artifacts . --target "$INPUT_IMAGE" --tag "$OUTPUT_IMAGE" "$BUILD_OPTIONS"
           IMG_NAME=$(echo "$IMAGE" | cut -d'/' -f2- | cut -d':' -f1)
           if [ -f "${IMG_NAME}-apparmor-profile" ]; then
             mv "${IMG_NAME}-apparmor-profile" workspace/
