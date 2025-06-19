@@ -32,11 +32,11 @@ steps:
       name: Slim Docker images and generate profiles
       command: |
         mkdir -p workspace
-        IFS=',' read -ra IMAGES <<< "\<< parameters.images >>"
+        IFS=',' read -ra IMAGES <<< '\<< parameters.images >>'
         for IMAGE in "${IMAGES[@]}"; do
-          FULL_IMAGE="\<< parameters.repo >>${IMAGE}"
+          FULL_IMAGE='\<< parameters.repo >>'${IMAGE}
           INPUT_IMAGE="${FULL_IMAGE}:\<< parameters.tag >>"
-          if [ -z "\<< parameters.output_tag >>" ]; then
+          if [ -z '\<< parameters.output_tag >>' ]; then
             OUTPUT_IMAGE="${FULL_IMAGE}:slim.\<< parameters.tag >>"
           else
             OUTPUT_IMAGE="${FULL_IMAGE}:\<< parameters.output_tag >>"
