@@ -29,9 +29,10 @@ jobs:
       - checkout
       # Run your orb's commands to validate them.
       - slim-orb/slim:
-          image: "nginx"
+          images: "nginx,httpd"
           tag: "latest"
-          output_image: "nginx.slim"
+          output_tag: "slim.latest"
+          setup_docker: true
 workflows:
   test-deploy:
     jobs:

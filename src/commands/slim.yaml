@@ -1,19 +1,26 @@
-description: Slim a Docker image and generate security profiles
+description: Slim one or more Docker images and generate security profiles
 parameters:
-  image:
+  images:
     type: string
+    description: Comma-separated list of image names (e.g. "nginx,alpine")
   tag:
     type: string
-    default: "latest"
-  output_image:
+    description: Tag to use for all input images
+  repo:
     type: string
     default: ""
-  use_remote_docker:
+    description: Optional repo to prepend to each image name (e.g. "myrepo/")
+  output_tag:
+    type: string
+    default: ""
+    description: Tag to use for all output images (e.g. "slim" will produce nginx:slim). If not set, uses "slim.<tag>"
+  setup_docker:
     type: boolean
-    default: true
+    default: false
+    description: Whether to set up remote Docker for image processing
 steps:
   - when:
-      condition: << parameters.use_remote_docker >>
+      condition: << parameters.setup_docker >>
       steps:
         - setup_remote_docker:
             docker_layer_caching: true
@@ -22,19 +29,26 @@ steps:
       command: |
         curl -sL https://raw.githubusercontent.com/slimtoolkit/slim/master/scripts/install-slim.sh | sudo -E bash -
   - run:
-      name: Slim Docker image and generate profiles
-      command: |
-        slim build --copy-meta-artifacts . --target << parameters.image >>:<< parameters.tag >> --tag << parameters.output_image >>
-  - run:
-      name: Move AppArmor and Seccomp profiles if they exist
+      name: Slim Docker images and generate profiles
       command: |
         mkdir -p workspace
-        if [ -f "<< parameters.image >>-apparmor-profile" ]; then
-          mv "<< parameters.image >>-apparmor-profile" workspace/
-        fi
-        if [ -f "<< parameters.image >>-seccomp.json" ]; then
-          mv "<< parameters.image >>-seccomp.json" workspace/
-        fi
+        echo "<< parameters.images >>" | tr ',' '\n' | while read IMAGE; do
+          FULL_IMAGE="<< parameters.repo >>${IMAGE}"
+          INPUT_IMAGE="${FULL_IMAGE}:<< parameters.tag >>"
+          if [ -z "<< parameters.output_tag >>" ]; then
+            OUTPUT_IMAGE="${FULL_IMAGE}:slim.<< parameters.tag >>"
+          else
+            OUTPUT_IMAGE="${FULL_IMAGE}:<< parameters.output_tag >>"
+          fi
+          slim build --copy-meta-artifacts . --target "$INPUT_IMAGE" --tag "$OUTPUT_IMAGE"
+          IMG_NAME=$(echo "$IMAGE" | cut -d'/' -f2- | cut -d':' -f1)
+          if [ -f "${IMG_NAME}-apparmor-profile" ]; then
+            mv "${IMG_NAME}-apparmor-profile" workspace/
+          fi
+          if [ -f "${IMG_NAME}-seccomp.json" ]; then
+            mv "${IMG_NAME}-seccomp.json" workspace/
+          fi
+        done
   - persist_to_workspace:
       root: workspace
       paths:

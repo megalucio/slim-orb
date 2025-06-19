@@ -1,5 +1,5 @@
 description: >
-  Example usage of the slim-orb to slim a Docker image and generate security profiles.
+  Example usage of the slim-orb to slim multiple Docker images and generate security profiles.
 
 usage:
   version: 2.1
@@ -9,7 +9,7 @@ usage:
     use-slim-orb:
       jobs:
         - slim-orb/slim:
-            image: your-image-name
+            images: "nginx,alpine"
             tag: latest
-            output_image: your-slimmed-image:latest
-            user_remote_docker: true
+            output_tag: slim.latest
+            use_remote_docker: true

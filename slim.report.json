@@ -1,0 +1,104 @@
+{
+  "document": "doc.report.command",
+  "version": "ov/command/slim/1.1",
+  "engine": "darwin/arm64|Aurora|1.41.7|latest|latest",
+  "containerized": false,
+  "host_distro": {
+    "name": "",
+    "version": "",
+    "display_name": "other"
+  },
+  "type": "slim",
+  "state": "error",
+  "error": "no.exposed.ports",
+  "target_reference": "alpine:latest",
+  "system": {
+    "type": "",
+    "release": "",
+    "distro": {
+      "name": "",
+      "version": "",
+      "display_name": ""
+    }
+  },
+  "source_image": {
+    "identity": {
+      "id": ""
+    },
+    "size": 0,
+    "size_human": "",
+    "create_time": "",
+    "architecture": "",
+    "container_entry": {
+      "exe_path": ""
+    }
+  },
+  "minified_image_size": 0,
+  "minified_image_size_human": "",
+  "minified_image": "",
+  "minified_image_id": "",
+  "minified_image_digest": "",
+  "minified_image_has_data": false,
+  "minified_by": 0,
+  "artifact_location": "",
+  "container_report_name": "",
+  "seccomp_profile_name": "",
+  "apparmor_profile_name": "",
+  "image_stack": [
+    {
+      "is_top_image": true,
+      "id": "sha256:2abc5e83407155714f171c293f197e1310176959e106f8ad63ffa2e7e9635d4a",
+      "full_name": "alpine:latest",
+      "repo_name": "alpine",
+      "version_tag": "latest",
+      "raw_tags": [
+        "alpine:latest"
+      ],
+      "create_time": "2025-05-30T16:20:41Z",
+      "new_size": 8515210,
+      "new_size_human": "8.5 MB",
+      "instructions": [
+        {
+          "type": "ADD",
+          "time": "2025-05-30T16:20:41Z",
+          "is_nop": false,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 8515210,
+          "size_human": "8.5 MB",
+          "params": "alpine-minirootfs-3.22.0-aarch64.tar.gz /",
+          "command_snippet": "ADD alpine-minirootfs-3.22.0-aarch64.tar.gz ...",
+          "command_all": "ADD alpine-minirootfs-3.22.0-aarch64.tar.gz /",
+          "comment": "buildkit.dockerfile.v0",
+          "is_buildkit_instruction": true,
+          "inst_set_time_bucket": "2025-05-30T18:15:00+02:00",
+          "inst_set_time_index": 0,
+          "inst_set_time_reverse_index": 0
+        },
+        {
+          "type": "CMD",
+          "time": "2025-05-30T16:20:41Z",
+          "is_last_instruction": true,
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": true,
+          "layer_index": 0,
+          "size": 0,
+          "params": "[\"/bin/sh\"]\n",
+          "command_snippet": "CMD [\"/bin/sh\"]\n",
+          "command_all": "CMD [\"/bin/sh\"]\n",
+          "comment": "buildkit.dockerfile.v0",
+          "raw_tags": [
+            "alpine:latest"
+          ],
+          "is_buildkit_instruction": true,
+          "inst_set_time_bucket": "2025-05-30T18:15:00+02:00",
+          "inst_set_time_index": 0,
+          "inst_set_time_reverse_index": 0
+        }
+      ]
+    }
+  ],
+  "image_created": false,
+  "image_build_engine": ""
+}
