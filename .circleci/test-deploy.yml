@@ -31,7 +31,7 @@ jobs:
       - slim-orb/slim:
           images: "nginx,alpine"
           tag: "latest"
-          output_image: "slim.latest"
+          output_tag: "slim.latest"
           setup_docker: true
 workflows:
   test-deploy:
