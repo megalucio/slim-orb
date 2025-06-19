@@ -48,7 +48,6 @@ steps:
           if [ -f "${IMG_NAME}-seccomp.json" ]; then
             mv "${IMG_NAME}-seccomp.json" workspace/
           fi
-          
         done
   - persist_to_workspace:
       root: workspace
