@@ -3,9 +3,15 @@ parameters:
   images:
     type: string
     description: Comma-separated list of image names (e.g. "nginx,alpine")
+    required: true
   tag:
     type: string
     description: Tag to use for all input images
+    required: true
+  image_prefix:
+    type: string
+    default: ""
+    description: Optional prefix to prepend to each image name (e.g. "myrepo/")
   output_tag:
     type: string
     default: ""
@@ -28,13 +34,14 @@ steps:
       name: Slim Docker images and generate profiles
       command: |
         mkdir -p workspace
-        IFS=',' read -ra IMAGES <<< "<< parameters.images >>"
+        IFS=',' read -ra IMAGES <<< "\<< parameters.images >>"
         for IMAGE in "${IMAGES[@]}"; do
-          INPUT_IMAGE="${IMAGE}:<< parameters.tag >>"
-          if [ -z "<< parameters.output_tag >>" ]; then
-            OUTPUT_IMAGE="${IMAGE}:slim.<< parameters.tag >>"
+          FULL_IMAGE="\<< parameters.image_prefix >>${IMAGE}"
+          INPUT_IMAGE="${FULL_IMAGE}:\<< parameters.tag >>"
+          if [ -z "\<< parameters.output_tag >>" ]; then
+            OUTPUT_IMAGE="${FULL_IMAGE}:slim.\<< parameters.tag >>"
           else
-            OUTPUT_IMAGE="${IMAGE}:<< parameters.output_tag >>"
+            OUTPUT_IMAGE="${FULL_IMAGE}:\<< parameters.output_tag >>"
           fi
           slim build --copy-meta-artifacts . --target "$INPUT_IMAGE" --tag "$OUTPUT_IMAGE"
           IMG_NAME=$(echo "$IMAGE" | cut -d'/' -f2- | cut -d':' -f1)
