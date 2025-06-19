@@ -11,5 +11,7 @@ usage:
         - slim-orb/slim:
             images: "nginx,alpine"
             tag: latest
-            output_tag: slim.latest
-            use_remote_docker: true
+            repo: ""                # Optional: e.g. "myrepo/"
+            output_tag: slim.latest # Optional: e.g. "slim" or "slim.latest"
+            setup_docker: true      # Optional: set to true to use remote Docker
+            build_options: "--http-probe=false"       # Optional: additional SlimToolkit build options
