@@ -51,4 +51,3 @@ steps:
       root: workspace
       paths:
         - .
-      
