@@ -3,11 +3,9 @@ parameters:
   images:
     type: string
     description: Comma-separated list of image names (e.g. "nginx,alpine")
-    required: true
   tag:
     type: string
     description: Tag to use for all input images
-    required: true
   output_tag:
     type: string
     default: ""
