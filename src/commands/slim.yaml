@@ -3,15 +3,13 @@ parameters:
   images:
     type: string
     description: Comma-separated list of image names (e.g. "nginx,alpine")
-    required: true
   tag:
     type: string
     description: Tag to use for all input images
-    required: true
-  image_prefix:
+  repo:
     type: string
     default: ""
-    description: Optional prefix to prepend to each image name (e.g. "myrepo/")
+    description: Optional repo to prepend to each image name (e.g. "myrepo/")
   output_tag:
     type: string
     default: ""
@@ -36,7 +34,7 @@ steps:
         mkdir -p workspace
         IFS=',' read -ra IMAGES <<< "\<< parameters.images >>"
         for IMAGE in "${IMAGES[@]}"; do
-          FULL_IMAGE="\<< parameters.image_prefix >>${IMAGE}"
+          FULL_IMAGE="\<< parameters.repo >>${IMAGE}"
           INPUT_IMAGE="${FULL_IMAGE}:\<< parameters.tag >>"
           if [ -z "\<< parameters.output_tag >>" ]; then
             OUTPUT_IMAGE="${FULL_IMAGE}:slim.\<< parameters.tag >>"
