@@ -31,8 +31,10 @@ jobs:
       - slim-orb/slim:
           images: "nginx,httpd"
           tag: "latest"
+          # repo: ""                # Optional: e.g. "myrepo/"
           output_tag: "slim.latest"
           setup_docker: true
+          # build_options: ""       # Optional: additional SlimToolkit build options
 workflows:
   test-deploy:
     jobs:
