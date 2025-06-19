@@ -1,4 +1,8 @@
-description: Slim one or more Docker images and generate security profiles
+description: |
+  Slim one or more Docker images and generate security profiles.
+  You can pass additional SlimToolkit build command options using the 'build_options' parameter.
+  For all possible options, see:
+  https://github.com/slimtoolkit/slim?tab=readme-ov-file#build-command-options
 parameters:
   images:
     type: string
@@ -18,6 +22,10 @@ parameters:
     type: boolean
     default: false
     description: Whether to set up remote Docker for image processing
+  build_options:
+    type: string
+    default: ""
+    description: Additional SlimToolkit build command options (see https://github.com/slimtoolkit/slim?tab=readme-ov-file#build-command-options)
 steps:
   - when:
       condition: << parameters.setup_docker >>
@@ -31,16 +39,42 @@ steps:
   - run:
       name: Slim Docker images and generate profiles
       command: |
-        mkdir -p workspace
-        echo "<< parameters.images >>" | tr ',' '\n' | while read IMAGE; do
-          FULL_IMAGE="<< parameters.repo >>${IMAGE}"
-          INPUT_IMAGE="${FULL_IMAGE}:<< parameters.tag >>"
-          if [ -z "<< parameters.output_tag >>" ]; then
-            OUTPUT_IMAGE="${FULL_IMAGE}:slim.<< parameters.tag >>"
-          else
-            OUTPUT_IMAGE="${FULL_IMAGE}:<< parameters.output_tag >>"
+        # Sanitize and validate parameters
+        IMAGES=$(echo "<< parameters.images >>" | tr ',' '\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | grep -v '^$')
+        TAG="<< parameters.tag >>"
+        REPO="<< parameters.repo >>"
+        OUTPUT_TAG="<< parameters.output_tag >>"
+        BUILD_OPTIONS="<< parameters.build_options >>"
+
+        # Validate images: allow only alphanum, -, _, /, and .
+        for IMAGE in $IMAGES; do
+          if ! echo "$IMAGE" | grep -Eq '^[a-zA-Z0-9._/-]+$'; then
+            echo "Invalid image name: $IMAGE"
+            exit 1
           fi
-          slim build --copy-meta-artifacts . --target "$INPUT_IMAGE" --tag "$OUTPUT_IMAGE"
+        done
+
+        # Validate tag and output_tag: allow only alphanum, -, _, and .
+        if ! echo "$TAG" | grep -Eq '^[a-zA-Z0-9._-]+$'; then
+          echo "Invalid tag: $TAG"
+          exit 1
+        fi
+        if [ -n "$OUTPUT_TAG" ] && ! echo "$OUTPUT_TAG" | grep -Eq '^[a-zA-Z0-9._-]+$'; then
+          echo "Invalid output tag: $OUTPUT_TAG"
+          exit 1
+        fi
+
+        mkdir -p workspace
+        echo "$IMAGES" | while read IMAGE; do
+          FULL_IMAGE="${REPO}${IMAGE}"
+          INPUT_IMAGE="${FULL_IMAGE}:$TAG"
+          if [ -z "$OUTPUT_TAG" ]; then
+            OUTPUT_IMAGE="${FULL_IMAGE}:slim.$TAG"
+          else
+            OUTPUT_IMAGE="${FULL_IMAGE}:$OUTPUT_TAG"
+          fi
+          # shellcheck disable=SC2086
+          slim build --copy-meta-artifacts . --target "$INPUT_IMAGE" --tag "$OUTPUT_IMAGE" $BUILD_OPTIONS
           IMG_NAME=$(echo "$IMAGE" | cut -d'/' -f2- | cut -d':' -f1)
           if [ -f "${IMG_NAME}-apparmor-profile" ]; then
             mv "${IMG_NAME}-apparmor-profile" workspace/
