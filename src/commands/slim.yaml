@@ -45,7 +45,6 @@ steps:
         REPO="<< parameters.repo >>"
         OUTPUT_TAG="<< parameters.output_tag >>"
         BUILD_OPTIONS="<< parameters.build_options >>"
-
         # Validate images: allow only alphanum, -, _, /, and .
         for IMAGE in $IMAGES; do
           if ! echo "$IMAGE" | grep -Eq '^[a-zA-Z0-9._/-]+$'; then
@@ -53,7 +52,6 @@ steps:
             exit 1
           fi
         done
-
         # Validate tag and output_tag: allow only alphanum, -, _, and .
         if ! echo "$TAG" | grep -Eq '^[a-zA-Z0-9._-]+$'; then
           echo "Invalid tag: $TAG"
@@ -63,13 +61,11 @@ steps:
           echo "Invalid output tag: $OUTPUT_TAG"
           exit 1
         fi
-
         # Validate build_options: reject dangerous shell metacharacters
         if echo "$BUILD_OPTIONS" | grep -Eq '[;&|`$()]'; then
           echo "Invalid build_options: contains potentially dangerous characters."
           exit 1
         fi
-        
         mkdir -p workspace
         echo "$IMAGES" | while read IMAGE; do
           FULL_IMAGE="${REPO}${IMAGE}"
