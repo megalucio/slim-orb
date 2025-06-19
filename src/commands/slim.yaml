@@ -32,8 +32,8 @@ steps:
       name: Slim Docker images and generate profiles
       command: |
         mkdir -p workspace
-        IFS=',' read -ra IMAGES <<< "<< parameters.images >>"
-        for IMAGE in "${IMAGES[@]}"; do
+        IMAGES=$(echo "\<< parameters.images >>" | tr ',' ' ')
+        for IMAGE in $IMAGES; do
           FULL_IMAGE="\<< parameters.repo >>${IMAGE}"
           INPUT_IMAGE="${FULL_IMAGE}:\<< parameters.tag >>"
           if [ -z "\<< parameters.output_tag >>" ]; then
