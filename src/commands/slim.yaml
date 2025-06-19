@@ -85,6 +85,7 @@ steps:
             mv "${IMG_NAME}-seccomp.json" workspace/
           fi
         done
+        docker images
   - persist_to_workspace:
       root: workspace
       paths:
