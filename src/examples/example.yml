@@ -14,4 +14,4 @@ usage:
             repo: ""                # Optional: e.g. "myrepo/"
             output_tag: slim.latest # Optional: e.g. "slim" or "slim.latest"
             setup_docker: true      # Optional: set to true to use remote Docker
-            build_options: ""       # Optional: additional SlimToolkit build options
+            build_options: "--http-probe=false"       # Optional: additional SlimToolkit build options
