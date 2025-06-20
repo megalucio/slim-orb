@@ -34,7 +34,6 @@ parameters:
     default: ""
     description: Additional global options for the SlimToolkit command (see https://github.com/slimtoolkit/slim?tab=readme-ov-file#usage-details)
 steps:
-  - checkout
   - when:
       condition: << parameters.setup_docker >>
       steps:
@@ -46,8 +45,8 @@ steps:
         curl -sL https://raw.githubusercontent.com/slimtoolkit/slim/master/scripts/install-slim.sh | sudo -E bash -
   - run:
       name: Slim Docker images and generate profiles
-      command: |
-        python3 src/scripts/slim.py
+      shell: /usr/bin/env python3
+      command: <<include(scripts/slim.py)>>
       environment:
         IMAGES: << parameters.images >>
         TAG: << parameters.tag >>
@@ -59,3 +58,9 @@ steps:
       root: workspace
       paths:
         - .
+
+
+
+
+        
+      
