@@ -47,6 +47,13 @@ steps:
       name: Slim Docker images and generate profiles
       command: |
         python3 src/scripts/slim.py
+      environment:
+        IMAGES: << parameters.images >>
+        TAG: << parameters.tag >>
+        REPO: << parameters.repo >>
+        OUTPUT_TAG: << parameters.output_tag >>
+        BUILD_OPTIONS: << parameters.build_options >>
+        GLOBAL_OPTIONS: << parameters.global_options >>
   - persist_to_workspace:
       root: workspace
       paths:
