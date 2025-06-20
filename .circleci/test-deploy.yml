@@ -26,11 +26,11 @@ jobs:
     docker:
       - image: cimg/base:current
     steps:
-      - run:
-          command: echo export SLIM_ORB_IMAGES=\"nginx\,httpd\" >> $BASH_ENV
+      # - run:
+      #     command: echo export SLIM_ORB_IMAGES=\"nginx\,httpd\" >> $BASH_ENV
       # Run your orb's commands to validate them.
       - slim-orb/slim:
-          # images: "nginx,httpd"                 # Required: Comma-separated list of image names
+          images: "nginx,httpd"                 # Required: Comma-separated list of image names
           tag: latest                           # Required: Tag to use for all input images
           # repo: ""                            # Optional: e.g. "myrepo/"
           output_tag: slim.latest               # Optional: e.g. "slim" or "slim.latest"
