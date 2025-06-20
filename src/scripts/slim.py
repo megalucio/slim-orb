@@ -2,7 +2,6 @@ import os
 import re
 import subprocess
 import sys
-
 def sanitize_and_validate(images, tag, repo, output_tag, build_options, global_options):
     # Split and trim images
     images_list = [img.strip() for img in images.split(',') if img.strip()]
@@ -24,7 +23,6 @@ def sanitize_and_validate(images, tag, repo, output_tag, build_options, global_o
             print(f"Invalid {name}: contains potentially dangerous characters.")
             sys.exit(1)
     return images_list
-
 def main():
     # These would be replaced by your parameter injection logic
     images = os.environ.get("IMAGES", "")
@@ -33,14 +31,11 @@ def main():
     output_tag = os.environ.get("OUTPUT_TAG", "")
     build_options = os.environ.get("BUILD_OPTIONS", "")
     global_options = os.environ.get("GLOBAL_OPTIONS", "")
-
     images_list = sanitize_and_validate(images, tag, repo, output_tag, build_options, global_options)
-
     os.makedirs("workspace", exist_ok=True)
     for image in images_list:
         full_image = f"{repo}{image}"
         input_image = f"{full_image}:{tag}"
-        
         if not output_tag:
             output_image = f"{full_image}:slim.{tag}"
         else:
@@ -60,6 +55,5 @@ def main():
         for profile in [f"{img_name}-apparmor-profile", f"{img_name}-seccomp.json"]:
             if os.path.isfile(profile):
                 os.rename(profile, os.path.join("workspace", profile))
-
 if __name__ == "__main__":
     main()
