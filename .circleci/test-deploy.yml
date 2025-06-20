@@ -28,12 +28,14 @@ jobs:
     steps:
       # Run your orb's commands to validate them.
       - slim-orb/slim:
-          images: "nginx,httpd"
-          tag: "latest"
+          images: "nginx,httpd"                 # Required: Comma-separated list of image names
+          tag: latest                           # Required: Tag to use for all input images
           # repo: ""                            # Optional: e.g. "myrepo/"
-          output_tag: "slim.latest"
-          setup_docker: true
+          output_tag: slim.latest               # Optional: e.g. "slim" or "slim.latest"
+          setup_docker: true                    # Optional: set to true to use remote Docker
           build_options: "--http-probe=false"   # Optional: additional SlimToolkit build options
+          # global_options: ""                  # Optional: additional global SlimToolkit options
+          # push_images: false                  # Optional: set to true to push images after build
 workflows:
   test-deploy:
     jobs:

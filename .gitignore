@@ -3,4 +3,5 @@ orb.yml
 .DS_Store
 .vscode/launch.json
 workspace/*-apparmor-profile
-slim.report.json
+*.report.json
+creport.json

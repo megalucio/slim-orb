@@ -33,6 +33,10 @@ parameters:
     type: string
     default: ""
     description: Additional global options for the SlimToolkit command (see https://github.com/slimtoolkit/slim?tab=readme-ov-file#usage-details)
+  push_images:
+    type: boolean
+    default: false
+    description: Whether to push the resulting images to the remote registry after building
 steps:
   - when:
       condition: << parameters.setup_docker >>
@@ -54,6 +58,7 @@ steps:
         OUTPUT_TAG: << parameters.output_tag >>
         BUILD_OPTIONS: << parameters.build_options >>
         GLOBAL_OPTIONS: << parameters.global_options >>
+        PUSH_IMAGES: << parameters.push_images >>
   - persist_to_workspace:
       root: workspace
       paths:
