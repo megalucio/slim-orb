@@ -34,6 +34,7 @@ parameters:
     default: ""
     description: Additional global options for the SlimToolkit command (see https://github.com/slimtoolkit/slim?tab=readme-ov-file#usage-details)
 steps:
+  - checkout
   - when:
       condition: << parameters.setup_docker >>
       steps:
