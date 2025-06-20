@@ -37,10 +37,10 @@ def main():
     images_list = sanitize_and_validate(images, tag, repo, output_tag, build_options, global_options)
 
     os.makedirs("workspace", exist_ok=True)
+    
     for image in images_list:
         full_image = f"{repo}{image}"
         input_image = f"{full_image}:{tag}"
-        
         if not output_tag:
             output_image = f"{full_image}:slim.{tag}"
         else:
