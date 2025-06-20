@@ -46,7 +46,7 @@ steps:
   - run:
       name: Slim Docker images and generate profiles
       command: |
-        python3 src/commands/slim.py
+        python3 src/scripts/slim.py
   - persist_to_workspace:
       root: workspace
       paths:
