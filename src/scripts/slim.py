@@ -33,6 +33,7 @@ def main():
     output_tag = os.environ.get("OUTPUT_TAG", "")
     build_options = os.environ.get("BUILD_OPTIONS", "")
     global_options = os.environ.get("GLOBAL_OPTIONS", "")
+    push_images = os.environ.get("PUSH_IMAGES", "false").lower() == "true"
 
     images_list = sanitize_and_validate(images, tag, repo, output_tag, build_options, global_options)
 
@@ -60,6 +61,9 @@ def main():
         for profile in [f"{img_name}-apparmor-profile", f"{img_name}-seccomp.json"]:
             if os.path.isfile(profile):
                 os.rename(profile, os.path.join("workspace", profile))
+        # Optionally push image
+        if push_images:
+            subprocess.run(["docker", "push", output_image], check=True)
 
 if __name__ == "__main__":
     main()
