@@ -1,5 +1,8 @@
 description: |
   Slim one or more Docker images and generate security profiles.
+  You can pass additional SlimToolkit global options using the 'global_options' parameter.
+  For all possible options, see:
+  https://github.com/slimtoolkit/slim?tab=readme-ov-file#usage-details
   You can pass additional SlimToolkit build command options using the 'build_options' parameter.
   For all possible options, see:
   https://github.com/slimtoolkit/slim?tab=readme-ov-file#build-command-options
@@ -26,6 +29,10 @@ parameters:
     type: string
     default: ""
     description: Additional SlimToolkit build command options (see https://github.com/slimtoolkit/slim?tab=readme-ov-file#build-command-options)
+  global_options:
+    type: string
+    default: ""
+    description: Additional global options for the SlimToolkit command (see https://github.com/slimtoolkit/slim?tab=readme-ov-file#usage-details)
 steps:
   - when:
       condition: << parameters.setup_docker >>
@@ -39,52 +46,14 @@ steps:
   - run:
       name: Slim Docker images and generate profiles
       command: |
-        # Sanitize and validate parameters
-        IMAGES=$(echo "<< parameters.images >>" | tr ',' '\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | grep -v '^$')
-        TAG="<< parameters.tag >>"
-        REPO="<< parameters.repo >>"
-        OUTPUT_TAG="<< parameters.output_tag >>"
-        BUILD_OPTIONS="<< parameters.build_options >>"
-        # Validate images: allow only alphanum, -, _, /, and .
-        for IMAGE in $IMAGES; do
-          if ! echo "$IMAGE" | grep -Eq '^[a-zA-Z0-9._/-]+$'; then
-            echo "Invalid image name: $IMAGE"
-            exit 1
-          fi
-        done
-        # Validate tag and output_tag: allow only alphanum, -, _, and .
-        if ! echo "$TAG" | grep -Eq '^[a-zA-Z0-9._-]+$'; then
-          echo "Invalid tag: $TAG"
-          exit 1
-        fi
-        if [ -n "$OUTPUT_TAG" ] && ! echo "$OUTPUT_TAG" | grep -Eq '^[a-zA-Z0-9._-]+$'; then
-          echo "Invalid output tag: $OUTPUT_TAG"
-          exit 1
-        fi
-        # Validate build_options: reject dangerous shell metacharacters
-        if echo "$BUILD_OPTIONS" | grep -Eq '[;&|`$()]'; then
-          echo "Invalid build_options: contains potentially dangerous characters."
-          exit 1
-        fi
-        mkdir -p workspace
-        echo "$IMAGES" | while read IMAGE; do
-          FULL_IMAGE="${REPO}${IMAGE}"
-          INPUT_IMAGE="${FULL_IMAGE}:$TAG"
-          if [ -z "$OUTPUT_TAG" ]; then
-            OUTPUT_IMAGE="${FULL_IMAGE}:slim.$TAG"
-          else
-            OUTPUT_IMAGE="${FULL_IMAGE}:$OUTPUT_TAG"
-          fi
-          # shellcheck disable=SC2086
-          slim build --copy-meta-artifacts . --target "$INPUT_IMAGE" --tag "$OUTPUT_IMAGE" "$BUILD_OPTIONS"
-          IMG_NAME=$(echo "$IMAGE" | cut -d'/' -f2- | cut -d':' -f1)
-          if [ -f "${IMG_NAME}-apparmor-profile" ]; then
-            mv "${IMG_NAME}-apparmor-profile" workspace/
-          fi
-          if [ -f "${IMG_NAME}-seccomp.json" ]; then
-            mv "${IMG_NAME}-seccomp.json" workspace/
-          fi
-        done
+        python3 src/scripts/slim.py
+      environment:
+        IMAGES: << parameters.images >>
+        TAG: << parameters.tag >>
+        REPO: << parameters.repo >>
+        OUTPUT_TAG: << parameters.output_tag >>
+        BUILD_OPTIONS: << parameters.build_options >>
+        GLOBAL_OPTIONS: << parameters.global_options >>
   - persist_to_workspace:
       root: workspace
       paths:
