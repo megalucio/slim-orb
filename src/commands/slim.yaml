@@ -49,16 +49,24 @@ steps:
         curl -sL https://raw.githubusercontent.com/slimtoolkit/slim/master/scripts/install-slim.sh | sudo -E bash -
   - run:
       name: Slim Docker images and generate profiles
-      shell: /usr/bin/env python3
-      command: <<include(scripts/slim.py)>>
-      environment:
-        IMAGES: << parameters.images >>
-        TAG: << parameters.tag >>
-        REPO: << parameters.repo >>
-        OUTPUT_TAG: << parameters.output_tag >>
-        BUILD_OPTIONS: << parameters.build_options >>
-        GLOBAL_OPTIONS: << parameters.global_options >>
-        PUSH_IMAGES: << parameters.push_images >>
+      shell: /usr/bin/env bash -eo pipefail
+      command: |
+        export SLIM_ORB_IMAGES="${SLIM_ORB_IMAGES}"
+        export SLIM_ORB_TAG="${SLIM_ORB_TAG}"
+        export SLIM_ORB_REPO="${SLIM_ORB_REPO}"
+        export SLIM_ORB_OUTPUT_TAG="${SLIM_ORB_OUTPUT_TAG}"
+        export SLIM_ORB_BUILD_OPTIONS="${SLIM_ORB_BUILD_OPTIONS}"
+        export SLIM_ORB_GLOBAL_OPTIONS="${SLIM_ORB_GLOBAL_OPTIONS}"
+        export SLIM_ORB_PUSH_IMAGES="${SLIM_ORB_PUSH_IMAGES}"
+        # Override with parameter if set (non-empty)
+        if [ -n "<< parameters.images >>" ]; then export SLIM_ORB_IMAGES="<< parameters.images >>"; fi
+        if [ -n "<< parameters.tag >>" ]; then export SLIM_ORB_TAG="<< parameters.tag >>"; fi
+        if [ -n "<< parameters.repo >>" ]; then export SLIM_ORB_REPO="<< parameters.repo >>"; fi
+        if [ -n "<< parameters.output_tag >>" ]; then export SLIM_ORB_OUTPUT_TAG="<< parameters.output_tag >>"; fi
+        if [ -n "<< parameters.build_options >>" ]; then export SLIM_ORB_BUILD_OPTIONS="<< parameters.build_options >>"; fi
+        if [ -n "<< parameters.global_options >>" ]; then export SLIM_ORB_GLOBAL_OPTIONS="<< parameters.global_options >>"; fi
+        if [ -n "<< parameters.push_images >>" ]; then export SLIM_ORB_PUSH_IMAGES="<< parameters.push_images >>"; fi
+        python3 src/scripts/slim.py
   - persist_to_workspace:
       root: workspace
       paths:

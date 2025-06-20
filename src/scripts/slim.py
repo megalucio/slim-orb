@@ -27,13 +27,13 @@ def sanitize_and_validate(images, tag, repo, output_tag, build_options, global_o
 
 def main():
     # These would be replaced by your parameter injection logic
-    images = os.environ.get("IMAGES", "")
-    tag = os.environ.get("TAG", "")
-    repo = os.environ.get("REPO", "")
-    output_tag = os.environ.get("OUTPUT_TAG", "")
-    build_options = os.environ.get("BUILD_OPTIONS", "")
-    global_options = os.environ.get("GLOBAL_OPTIONS", "")
-    push_images = os.environ.get("PUSH_IMAGES", "false").lower() == "true"
+    images = os.environ.get("SLIM_ORB_IMAGES", "")
+    tag = os.environ.get("SLIM_ORB_TAG", "")
+    repo = os.environ.get("SLIM_ORB_REPO", "")
+    output_tag = os.environ.get("SLIM_ORB_OUTPUT_TAG", "")
+    build_options = os.environ.get("SLIM_ORB_BUILD_OPTIONS", "")
+    global_options = os.environ.get("SLIM_ORB_GLOBAL_OPTIONS", "")
+    push_images = os.environ.get("SLIM_ORB_PUSH_IMAGES", "false").lower() == "true"
 
     images_list = sanitize_and_validate(images, tag, repo, output_tag, build_options, global_options)
 
