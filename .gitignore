@@ -5,3 +5,4 @@ orb.yml
 workspace/*-apparmor-profile
 *.report.json
 creport.json
+*-apparmor-profile
