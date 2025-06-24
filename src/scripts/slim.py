@@ -56,7 +56,7 @@ def main():
         ])
         if build_options:
             cmd.extend(build_options.split())
-        subprocess.run(cmd, check=True)
+        subprocess.run(cmd, check=True, input=b"\n")
         img_name = image.split('/', 1)[-1].split(':', 1)[0]
         for profile in [f"{img_name}-apparmor-profile", f"{img_name}-seccomp.json"]:
             if os.path.isfile(profile):
