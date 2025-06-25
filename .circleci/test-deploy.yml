@@ -35,7 +35,7 @@ jobs:
           setup_docker: true                    # Optional: set to true to use remote Docker
           build_options: "--http-probe=false"   # Optional: additional SlimToolkit build options
           # global_options: ""                  # Optional: additional global SlimToolkit options
-          push_images: true                     # Optional: set to true to push images after build
+          push_images: false                    # Optional: set to true to push images after build
 workflows:
   test-deploy:
     jobs:
