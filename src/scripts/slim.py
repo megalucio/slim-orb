@@ -33,7 +33,9 @@ def main():
     output_tag = os.environ.get("OUTPUT_TAG", "")
     build_options = os.environ.get("BUILD_OPTIONS", "")
     global_options = os.environ.get("GLOBAL_OPTIONS", "")
-    push_images = str(os.environ.get("PUSH_IMAGES", "false")).lower() == "true"
+    push_images = os.environ.get("PUSH_IMAGES", "false")
+    print(f"Push images: {push_images}")
+    
 
     images_list = sanitize_and_validate(images, tag, repo, output_tag, build_options, global_options)
 
