@@ -15,6 +15,14 @@ orbs:
 
 ### Example Workflow
 
+1. **version**  
+    Use versio 1.0.1 for orb-compatible configuration: `version: 1.0.1`
+2. **description**  
+    Describes the orb and its functionality. Displayed in the CLI and orb registry.
+3. **display**  
+    Set the `home_url` for documentation or product info, and `source_url` for the orb's source repository.
+4. **orbs**  
+    (Optional) Import dependencies here if your orb uses other orbs.
 ```yaml
 workflows:
   version: 2
