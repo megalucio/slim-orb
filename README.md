@@ -75,14 +75,13 @@ jobs:
 - Slimmed Docker images are tagged and optionally pushed to your registry.
 - Security profiles (AppArmor, Seccomp) are saved in the `workspace` directory.
 
----
-
 ## References
 
 - [SlimToolkit Documentation](https://github.com/slimtoolkit/slim)
 - [CircleCI Orbs Documentation](https://circleci.com/docs/orb-intro/)
 - [Orb in the CircleCI Registry](https://circleci.com/developer/orbs/orb/megalucio/slim-orb)
 
----
-
 ## License
+
+MIT
+
