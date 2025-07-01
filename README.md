@@ -10,7 +10,7 @@ Add this orb to your `.circleci/config.yml`:
 
 ```yaml
 orbs:
-  slim-orb: your-namespace/slim-orb@x.y.z
+  slim-orb: megalucio/slim-orb@1.2.7
 ```
 
 ### Example Workflow
