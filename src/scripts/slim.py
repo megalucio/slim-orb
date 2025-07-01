@@ -56,13 +56,15 @@ def main():
         ])
         if build_options:
             cmd.extend(build_options.split())
-        subprocess.run(cmd, check=True, input=b"\n")
+        print(" ".join(cmd))  # Print the slim commandto be executed
+        subprocess.run(cmd, check=True) # , input=b"\n")
         img_name = image.split('/', 1)[-1].split(':', 1)[0]
         for profile in [f"{img_name}-apparmor-profile", f"{img_name}-seccomp.json"]:
             if os.path.isfile(profile):
                 os.rename(profile, os.path.join("workspace", profile))
         # Optionally push image
         if push_images:
+            print(" ".join(cmd))  # Print the push command to be executed
             subprocess.run(["docker", "push", output_image], check=True)
 
 if __name__ == "__main__":
