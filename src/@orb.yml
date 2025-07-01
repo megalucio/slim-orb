@@ -1,12 +1,13 @@
 version: 2.1
 
 description: >
-  Sample orb description What will your orb allow users to accomplish? Descriptions should be short, simple, and informative.
+  This is a CircleCI Orb that provides a command to slim down Docker images using the SlimToolkit.
+  It allows you to specify multiple images, a tag, and various options for the slimming process.
 
 # This information will be displayed in the orb registry and is not mandatory.
 display:
-  home_url: "https://slimtoolkit.org"
-  source_url: "https://slimtoolkit.org"
+  home_url: "https://circleci.com/developer/orbs/orb/megalucio/slim-orb"
+  source_url: "https://github.com/megalucio/slim-orb"
 
 # If your orb requires other orbs, you can import them like this. Otherwise remove the "orbs" stanza.
 # orbs:
